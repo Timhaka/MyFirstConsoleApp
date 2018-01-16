@@ -13,7 +13,7 @@ namespace MyFirstConsoleApp.Helpers
         public static ClientContext GetClientContext(string url)
         {
             // get the context of your site. 
-            ClientContext context = new ClientContext("https://folkis2017.sharepoint.com/sites/Tim");
+            ClientContext context = new ClientContext(url);
             // ask user for password and put it in a secure string
             string password = GetPassword();
             var securePassword = new SecureString();

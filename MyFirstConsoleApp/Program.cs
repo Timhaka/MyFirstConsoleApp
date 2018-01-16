@@ -15,9 +15,22 @@ namespace MyFirstConsoleApp
             //using statement will dispose your object when its done
             using (ClientContext ctx = Helpers.ContextHelper.GetClientContext("https://folkis2017.sharepoint.com/sites/Tim"))
             {
-                CodeExamples.CSOM101.GetWebTitle(ctx);
+                //CodeExamples.CSOM101.GetWebTitle(ctx);
+                //CodeExamples.CSOM101.UpdateTitelOfWeb(ctx, "Tims Sharepoint Site");
+                //CodeExamples.CSOM101.ListAllLists(ctx);
+              //  CodeExamples.CSOM101.CreateDocumentLibrary(ctx);
+                CodeExamples.CSOM101.CreateGenericList(ctx);
+
             }
-            
+
+
+            Console.WriteLine("Press enter to continue");
+            Console.ReadKey();
+
+
+
+
+
 
         }
 
