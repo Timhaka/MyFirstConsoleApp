@@ -106,5 +106,117 @@ namespace MyFirstConsoleApp.CodeExamples
 
         }
 
+        public static void CreateTaskList(ClientContext ctx)
+        {
+            ListCreationInformation info = new ListCreationInformation();
+            info.Title = "My Task";
+            info.TemplateType = 107;
+            // or like this info.TemplateType = (int)ListTemplateType.Tasks;
+            info.Url = "list/mytask";
+            ctx.Web.Lists.Add(info);
+
+            ctx.ExecuteQuery();
+
+        }
+
+        public static void GetAllListsNotHidden(ClientContext ctx)
+        {
+            ListCollection lists = ctx.Web.Lists;
+
+            //ctx.Load(lists); //takes longer to get everything
+            ctx.Load(lists, lsts => lsts.Include(
+                l => l.Title,
+                l => l.DefaultViewUrl).Where(l => l.Hidden != true));
+
+            ctx.ExecuteQuery();
+
+
+            foreach (var list in lists)
+            {
+                    Console.WriteLine(list.Title);
+            }
+
+        }
+
+        public static void AddGoogleToNav(ClientContext ctx)
+        {
+
+            Web web = ctx.Web;
+            NavigationNodeCollection QuickLanchcoll = web.Navigation.QuickLaunch;
+            //ctx.Load(QuickLanchcoll);
+            //ctx.ExecuteQuery();
+
+            NavigationNodeCreationInformation NewNode = new NavigationNodeCreationInformation();
+            NewNode.Title = "Google";
+            NewNode.Url = "https://google.com";
+
+            QuickLanchcoll.Add(NewNode);
+            //ctx.Load(QuickLanchcoll);
+            ctx.ExecuteQuery();
+
+
+            
+
+        }
+
+        public static void CreateGeneraricList2(ClientContext ctx)
+        {
+
+            var lists = ctx.Web.Lists;
+            var results = ctx.LoadQuery(lists.Where(list => list.Title == "Custom List"));
+            ctx.Web.Context.ExecuteQuery();
+
+            if (!results.Any())
+            {
+                ListCreationInformation info = new ListCreationInformation();
+                info.Title = "My List";
+                info.TemplateType = 100;
+                info.Url = "lists/mylist";
+                ctx.Web.Lists.Add(info);
+                ctx.ExecuteQuery();
+            }
+            else
+            {
+                Console.WriteLine("List already exists. Give it another url and name");
+            }
+        }
+
+        public static void ReadListItems(ClientContext ctx, string listname)
+        {
+            List myList = ctx.Web.Lists.GetByTitle(listname);
+            ctx.Load(myList);
+            ctx.ExecuteQuery();
+
+            CamlQuery query = CamlQuery.CreateAllItemsQuery(100);
+            ListItemCollection items = myList.GetItems(query);
+
+            // Retrieve all items in the ListItemCollection from List.GetItems(Query). 
+            ctx.Load(items);
+            ctx.ExecuteQuery();
+
+            Console.WriteLine("My list items displayed below");
+            foreach (ListItem listItem in items)
+            {
+                Console.WriteLine(listItem["Title"]);
+            }
+
+        }
+
+        public static void AddItemToMylist(ClientContext ctx)
+        {
+            List myList = ctx.Web.Lists.GetByTitle("My List");
+
+            ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+            ListItem newListItem = myList.AddItem(itemCreateInfo);
+            newListItem["Title"] = "Test Item!";
+
+            newListItem.Update();
+
+            ctx.ExecuteQuery();
+
+
+        }
+
+
     }
 }
