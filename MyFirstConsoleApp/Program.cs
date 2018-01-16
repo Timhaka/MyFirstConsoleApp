@@ -12,7 +12,7 @@ namespace MyFirstConsoleApp
     {
         static void Main(string[] args)
         {
-
+            //using statement will dispose your object when its done
             using (ClientContext ctx = Helpers.ContextHelper.GetClientContext("https://folkis2017.sharepoint.com/sites/Tim"))
             {
                 CodeExamples.CSOM101.GetWebTitle(ctx);

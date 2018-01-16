@@ -25,11 +25,10 @@ namespace MyFirstConsoleApp.CodeExamples
             Web w2 = context.Web;
 
             //only get the properties you need(This is a faster way of loading, you can speficify what you want to get)
-            context.Load(context.Web, w => w.Title);
+            context.Load(w2, w => w.Title);
             //goes and gets it. takes about 400ms or longer
             context.ExecuteQuery();
-            Console.WriteLine(context.Web.Title);
-
+            Console.WriteLine(w2.Title);
 
 
 
